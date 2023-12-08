@@ -24,6 +24,7 @@ public class DishController {
     public void addDish(@RequestBody Dish dish) {
         dishService.addDish(dish);
     }
+
     @DeleteMapping("/delete/{id}")
     public void deleteDish(@PathVariable("id") Long id){
         dishService.deleteDish(id);
@@ -40,7 +41,7 @@ public class DishController {
     public Dish getDish(@PathVariable("id") Long id){
         return dishService.getDish(id);
     }
-    @PutMapping("/{id}/uploadingPhoto/")
+    @PostMapping("/{id}/uploadingPhoto/")
     public void uploadImageToDish(@PathVariable("id") Long id,@RequestParam("file") MultipartFile file) throws IOException{
      dishService.uploadImageToDish(id,file);
     }

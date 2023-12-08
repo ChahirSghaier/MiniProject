@@ -19,11 +19,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DishService implements IDishService {
     private DishRepository dishRepository;
+
     @Override
     public void addDish(Dish dish) {
-
         dishRepository.save(dish);
+    }
 
+    @Override
+    public void addDish(Dish dish, MultipartFile file) throws IOException {
+        Dish newDish ;
+        newDish=dishRepository.save(dish);
+        uploadImageToDish(newDish.getId(),file);
     }
 
     @Override
@@ -38,7 +44,6 @@ public class DishService implements IDishService {
             newDish = dishRepository.findById(id).get();
             newDish.setName(dish.getName());
             newDish.setPrice(dish.getPrice());
-            newDish.setImageList(dish.getImageList());
             return dishRepository.save(newDish);
         }else{
                 throw new RessourceNotFoundException("dish not existed ");
@@ -57,13 +62,9 @@ public class DishService implements IDishService {
 
     @Override
     public byte[] getImage(Long id) {
-        if (dishRepository.findById(id).isPresent()){
-        Dish dish = dishRepository.findById(id).get();
-        Optional<Image> image = dish.getImageList().stream().findFirst();
+        Dish dish = dishRepository.findDishById(id);
+       Optional<Image>  image = dish.getImageList().stream().findFirst();
         return FileUploader.decompressImage(image.get().getContent());
-        } else{
-            return null ;
-        }
     }
 
     private IServiceImage serviceImage;

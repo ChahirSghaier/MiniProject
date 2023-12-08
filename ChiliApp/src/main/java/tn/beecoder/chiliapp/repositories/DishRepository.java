@@ -10,4 +10,5 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
 List<Dish> findAll();
 
 
+    Dish findDishById(Long id);
 }

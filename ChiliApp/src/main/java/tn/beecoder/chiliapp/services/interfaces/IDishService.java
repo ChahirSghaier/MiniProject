@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface IDishService {
     public void addDish(Dish dish);
+
+    void addDish(Dish dish, MultipartFile file) throws IOException;
+
     public void deleteDish(Long id);
     public Dish updateDish(Long id,Dish dish) throws RessourceNotFoundException;
     public List<Dish> getAllDishes();
